@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bewerbungsformular Callcenter</title>
+<style>
+:root{--p:#536f84;--d:#30495c;--bg:#f4f6f8;--line:#d8e0e6;--text:#27353e;--soft:#f7f9fa}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text);line-height:1.45}
+.top{height:6px;background:var(--p)}
+.wrap{max-width:850px;margin:26px auto 50px;padding:0 14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:9px;margin-bottom:16px;box-shadow:0 2px 7px #2337460b}
+.intro{padding:27px 30px;border-top:4px solid var(--p)}
+h1{margin:0 0 7px;color:var(--d);font-size:27px}
+p{color:#71808a;font-size:14px;margin:4px 0}
+.progress{margin-top:18px;height:6px;background:#e5eaee;border-radius:8px;overflow:hidden}
+.bar{height:100%;width:10%;background:var(--p);transition:.2s}
+.pt{font-size:11px;color:#71808a;margin-top:6px}
+.head{padding:16px 26px 14px;border-bottom:1px solid var(--line);background:#fbfcfd;border-radius:9px 9px 0 0}
+.num{font-size:11px;color:var(--p);font-weight:bold;text-transform:uppercase}
+.head h2{margin:2px 0 0;font-size:19px;color:var(--d)}
+.body{padding:23px 26px 25px}
+.field{margin-bottom:17px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+input,textarea,select{width:100%;padding:10.5px 11px;border:1px solid #cbd5dc;border-radius:6px;background:#fff;font:14px Arial;color:var(--text);outline:0}
+input:focus,textarea:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 3px #536f8418}
+textarea{min-height:92px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.sub{font-size:14px;font-weight:bold;color:var(--d);padding:8px 0 7px;border-bottom:1px solid #edf1f3;margin:5px 0 14px}
+.choice{display:flex;gap:22px;flex-wrap:wrap;margin-top:4px}
+.choice label{font-weight:400;display:flex;align-items:center;gap:7px;margin:0}
+.choice input{width:auto;padding:0;box-shadow:none}
+.note{background:var(--soft);border-left:3px solid var(--p);padding:10px 12px;font-size:13px;margin-bottom:18px}
+.actions{text-align:right}
+.btn{border:0;border-radius:6px;background:var(--d);color:#fff;padding:12px 22px;font-weight:bold;cursor:pointer}
+.success{display:none;text-align:center;padding:45px 25px}
+.success h2{color:var(--d)}
+@media(max-width:650px){.wrap{margin-top:14px}.intro{padding:22px}.body{padding:20px}.head{padding:15px 20px}.grid{grid-template-columns:1fr}h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="top"></div>
+<main class="wrap">
+
+<section class="card intro">
+<h1>Bewerbungsformular Callcenter</h1>
+<p>Bitte füllen Sie das Formular vollständig aus.</p>
+<p>Alle Angaben werden für die Prüfung der Zusammenarbeit benötigt.</p>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="pt" id="pt">Abschnitt 1 von 10</div>
+</section>
+
+<form id="form">
+<div class="section">
+  <div class="section-title">Position</div>
+  <div class="question">
+    <label for="position">Für welche Position bewerben Sie sich?</label>
+    <select id="position" name="position" required>
+      <option value="" selected disabled>Bitte auswählen</option>
+      <option value="Cross-Selling & Upselling">Cross-Selling &amp; Upselling</option>
+      <option value="Inbound-Kundenservice">Inbound-Kundenservice</option>
+      <option value="Beide Positionen">Beide Positionen / Flexibel für beide Positionen</option>
+    </select>
+  </div>
+</div>
+
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 1</div><h2>Firma</h2></div>
+<div class="body">
+<div class="field"><label>Firmenname</label><input name="firmenname"></div>
+<div class="field"><label>Geschäftsadresse</label><input name="geschaeftsadresse"></div>
+<div class="grid">
+<div class="field"><label>Filialen</label><input name="filialen"></div>
+<div class="field"><label>Gesellschaftsform</label>
+<select name="gesellschaftsform"><option value="">Bitte auswählen</option><option>GmbH</option><option>UG</option><option>Einzelunternehmen</option><option>GbR</option><option>AG</option><option>Sonstige</option></select>
+</div></div>
+<div class="field"><label>Firma existiert seit (Gründungsdatum)</label><input type="date" name="firma_existiert_seit"></div>
+
+<div class="sub">Gesellschafter (Owner)</div>
+<div class="grid">
+<div class="field"><label>Anzahl</label><input type="number" min="0" name="owner_anzahl"></div>
+<div class="field"><label>Name</label><input name="owner_name"></div>
+<div class="field"><label>Telefon</label><input name="owner_telefon"></div>
+<div class="field"><label>Kontakt E-Mail</label><input type="email" name="owner_email"></div>
+</div>
+<div class="field"><label>Erfahrung im Callcenter seit (wann)</label><input type="number" min="1900" max="2100" placeholder="Jahr, z. B. 2019" name="owner_erfahrung"></div>
+
+<div class="sub">Geschäftsführer (angestellt)</div>
+<div class="grid">
+<div class="field"><label>Anzahl</label><input type="number" min="0" name="gf_anzahl"></div>
+<div class="field"><label>Name</label><input name="gf_name"></div>
+<div class="field"><label>Telefon</label><input name="gf_telefon"></div>
+<div class="field"><label>Kontakt E-Mail</label><input type="email" name="gf_email"></div>
+</div>
+<div class="field"><label>Erfahrung im Callcenter seit (wann)</label><input type="number" min="1900" max="2100" placeholder="Jahr, z. B. 2019" name="gf_erfahrung"></div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 2</div><h2>Kontaktperson</h2></div>
+<div class="body"><div class="grid">
+<div class="field"><label>Name</label><input name="kontakt_name"></div>
+<div class="field"><label>E-Mail-Adresse (persönlich)</label><input type="email" name="kontakt_pers_email"></div>
+<div class="field"><label>Firmen-E-Mail-Adresse</label><input type="email" name="kontakt_firmen_email"></div>
+<div class="field"><label>Telefon</label><input name="kontakt_telefon"></div>
+</div></div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 3</div><h2>Zeiten</h2></div>
+<div class="body"><div class="grid">
+<div class="field"><label>Öffnungszeiten</label><input name="oeffnungszeiten"></div>
+<div class="field"><label>Arbeitszeiten</label><input name="arbeitszeiten"></div>
+</div></div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 4</div><h2>Projekte</h2></div>
+<div class="body">
+<div class="field"><label>Anzahl Projekte</label><input type="number" min="0" name="anzahl_projekte"></div>
+<div class="field"><label>Welche Projekte und seit wann</label><textarea name="projekte_seit_wann"></textarea></div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 5</div><h2>Mitarbeiter</h2></div>
+<div class="body"><div class="grid">
+<div class="field"><label>Anzahl gesamt angestellte Mitarbeiter</label><input type="number" min="0" name="mitarbeiter_gesamt"></div>
+<div class="field"><label>Davon sozialversicherungspflichtig beschäftigt</label><input type="number" min="0" name="mitarbeiter_sv"></div>
+<div class="field"><label>Davon Freelancer</label><input type="number" min="0" name="mitarbeiter_freelancer"></div>
+<div class="field"><label>Davon Homeoffice</label><input type="number" min="0" name="mitarbeiter_homeoffice"></div>
+<div class="field"><label>Davon Office</label><input type="number" min="0" name="mitarbeiter_office"></div>
+<div class="field"><label>Anzahl Mitarbeiter mit 1 Jahr Zugehörigkeit</label><input type="number" min="0" name="mitarbeiter_1jahr"></div>
+<div class="field"><label>Anzahl Mitarbeiter mit 2 Jahren Zugehörigkeit</label><input type="number" min="0" name="mitarbeiter_2jahre"></div>
+<div class="field"><label>Anzahl Mitarbeiter mit 3 Jahren Zugehörigkeit</label><input type="number" min="0" name="mitarbeiter_3jahre"></div>
+</div></div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 6</div><h2>Teamleiter</h2></div>
+<div class="body"><div class="grid">
+<div class="field"><label>Name Teamleiter</label><input name="teamleiter_name"></div>
+<div class="field"><label>Erfahrung Teamleiter im Callcenter seit (wann)</label><input type="number" min="1900" max="2100" placeholder="Jahr" name="teamleiter_erfahrung"></div>
+</div></div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 7</div><h2>Coach / Trainer</h2></div>
+<div class="body"><div class="grid">
+<div class="field"><label>Name Coach/Trainer</label><input name="coach_name"></div>
+<div class="field"><label>Erfahrung Coach/Trainer im Callcenter seit (wann)</label><input type="number" min="1900" max="2100" placeholder="Jahr" name="coach_erfahrung"></div>
+</div></div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 8</div><h2>Kapazität / Start</h2></div>
+<div class="body">
+<div class="field"><label>Wann könnte ein Team aus 2 Personen (die verkaufen können) beginnen?</label><input type="date" name="start_team_2"></div>
+<div class="field"><label>Wann könnte ein Team aus 4 Personen (die verkaufen können) beginnen?</label><input type="date" name="start_team_4"></div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 9</div><h2>Weitere Fragen</h2></div>
+<div class="body">
+<div class="field"><label>1. Wer würde einspringen, wenn Mitarbeiter ausfallen?</label><textarea name="frage1"></textarea></div>
+<div class="field"><label>2. Würden Geschäftsführer, Trainer oder Coach auch selbst telefonieren, wenn Personal ausfällt?</label>
+<div class="choice"><label><input type="radio" name="frage2" value="Ja"> Ja</label><label><input type="radio" name="frage2" value="Nein"> Nein</label></div>
+</div>
+<div class="field"><label>3. Wie wird sichergestellt, dass ausreichend Ersatz vorhanden und ausgebildet ist – mit ausreichenden Deutsch- und Systemkenntnissen –, damit die Kunden gut bedient und behandelt werden?</label><textarea name="frage3"></textarea></div>
+<div class="field"><label>4. Kann sichergestellt werden, dass nach der 4-wöchigen Schulung komplett selbständig, ohne den Auftraggeber, gearbeitet werden kann?</label>
+<div class="choice"><label><input type="radio" name="frage4" value="Ja"> Ja</label><label><input type="radio" name="frage4" value="Nein"> Nein</label></div>
+</div>
+<div class="field"><label>5. Welche Person haftet für Datenmissbrauch, und wie wird sichergestellt, dass Kundendaten nicht missbräuchlich durch Mitarbeiter und Dritte verwendet werden?</label><textarea name="frage5"></textarea></div>
+<div class="field"><label>6. Welche Person haftet generell für Schadenersatz gegenüber dem Projektgeber?</label><textarea name="frage6"></textarea></div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><div class="num">Abschnitt 10</div><h2>Unterschrift</h2></div>
+<div class="body">
+<div class="note"><strong>Der Geschäftsführer muss unterzeichnen.</strong></div>
+<div class="grid">
+<div class="field"><label>Name der unterschreibenden Person</label><input name="unterschrift_name"></div>
+<div class="field"><label>Funktion</label><input name="unterschrift_funktion"></div>
+<div class="field"><label>Ort, Datum</label><input name="ort_datum"></div>
+<div class="field"><label>Unterschrift</label><input name="unterschrift"></div>
+</div>
+<div class="actions"><button class="btn" type="submit">Formular absenden</button></div>
+</div>
+</section>
+
+</form>
+
+<section class="card success" id="success"><h2>Vielen Dank!</h2><p>Ihre Angaben wurden erfasst.</p></section>
+</main>
+
+<script>
+const sections=[...document.querySelectorAll('#form>.card')];
+const bar=document.getElementById('bar'),pt=document.getElementById('pt');
+function progress(){
+ let i=0,mid=scrollY+innerHeight/2;
+ sections.forEach((s,n)=>{if(s.offsetTop<=mid)i=n});
+ bar.style.width=((i+1)/sections.length*100)+'%';
+ pt.textContent='Abschnitt '+(i+1)+' von '+sections.length;
+}
+addEventListener('scroll',progress,{passive:true});progress();
+document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const b=document.querySelector('.btn');b.disabled=true;b.textContent='PDF wird erstellt…';try{const {jsPDF}=window.jspdf,fd=new FormData(e.target),v=n=>fd.get(n)||'—';const groups=[['1. Firma',[['Firmenname','firmenname'],['Geschäftsadresse','geschaeftsadresse'],['Filialen','filialen'],['Gesellschaftsform','gesellschaftsform'],['Firma existiert seit (Gründungsdatum)','firma_existiert_seit'],['Gesellschafter – Anzahl','owner_anzahl'],['Gesellschafter – Name','owner_name'],['Gesellschafter – Telefon','owner_telefon'],['Gesellschafter – Kontakt E-Mail','owner_email'],['Gesellschafter – Erfahrung im Callcenter seit','owner_erfahrung'],['Geschäftsführer – Anzahl','gf_anzahl'],['Geschäftsführer – Name','gf_name'],['Geschäftsführer – Telefon','gf_telefon'],['Geschäftsführer – Kontakt E-Mail','gf_email'],['Geschäftsführer – Erfahrung im Callcenter seit','gf_erfahrung']]],['2. Kontaktperson',[['Name','kontakt_name'],['E-Mail-Adresse (persönlich)','kontakt_pers_email'],['Firmen-E-Mail-Adresse','kontakt_firmen_email'],['Telefon','kontakt_telefon']]],['3. Zeiten',[['Öffnungszeiten','oeffnungszeiten'],['Arbeitszeiten','arbeitszeiten']]],['4. Projekte',[['Anzahl Projekte','anzahl_projekte'],['Welche Projekte und seit wann','projekte_seit_wann']]],['5. Mitarbeiter',[['Anzahl gesamt angestellte Mitarbeiter','mitarbeiter_gesamt'],['Davon sozialversicherungspflichtig beschäftigt','mitarbeiter_sv'],['Davon Freelancer','mitarbeiter_freelancer'],['Davon Homeoffice','mitarbeiter_homeoffice'],['Davon Office','mitarbeiter_office'],['Anzahl Mitarbeiter mit 1 Jahr Zugehörigkeit','mitarbeiter_1jahr'],['Anzahl Mitarbeiter mit 2 Jahren Zugehörigkeit','mitarbeiter_2jahre'],['Anzahl Mitarbeiter mit 3 Jahren Zugehörigkeit','mitarbeiter_3jahre']]],['6. Teamleiter',[['Name Teamleiter','teamleiter_name'],['Erfahrung Teamleiter im Callcenter seit (wann)','teamleiter_erfahrung']]],['7. Coach / Trainer',[['Name Coach/Trainer','coach_name'],['Erfahrung Coach/Trainer im Callcenter seit (wann)','coach_erfahrung']]],['8. Kapazität / Start',[['Team aus 2 Personen (die verkaufen können) – Start','start_team_2'],['Team aus 4 Personen (die verkaufen können) – Start','start_team_4']]],['9. Weitere Fragen',[['1. Wer würde einspringen, wenn Mitarbeiter ausfallen?','frage1'],['2. Würden Geschäftsführer, Trainer oder Coach auch selbst telefonieren, wenn Personal ausfällt?','frage2'],['3. Wie wird sichergestellt, dass ausreichend Ersatz vorhanden und ausgebildet ist – mit ausreichenden Deutsch- und Systemkenntnissen –, damit die Kunden gut bedient und behandelt werden?','frage3'],['4. Kann sichergestellt werden, dass nach der 4-wöchigen Schulung komplett selbständig, ohne den Auftraggeber, gearbeitet werden kann?','frage4'],['5. Welche Person haftet für Datenmissbrauch, und wie wird sichergestellt, dass Kundendaten nicht missbräuchlich durch Mitarbeiter und Dritte verwendet werden?','frage5'],['6. Welche Person haftet generell für Schadenersatz gegenüber dem Projektgeber?','frage6']]],['10. Unterschrift',[['Name der unterschreibenden Person','unterschrift_name'],['Funktion','unterschrift_funktion'],['Ort, Datum','ort_datum'],['Unterschrift','unterschrift']]]];const d=new jsPDF({unit:'mm',format:'a4'}),m=16,W=178,H=297;let y=18;const head=()=>{d.setFont('helvetica','bold');d.setFontSize(17);d.setTextColor(48,73,92);d.text('Bewerbungsformular Callcenter',m,y);y+=10},page=()=>{d.addPage();y=18;head()};head();for(const [title,fs] of groups){if(y>265)page();d.setFillColor(238,243,246);d.rect(m,y-5,W,9,'F');d.setFontSize(10);d.text(title,m+3,y+1);y+=10;for(const [q,n] of fs){d.setFont('helvetica','bold');d.setFontSize(8.5);d.setTextColor(55,65,72);let qt=d.splitTextToSize(q,W);if(y+qt.length*4+12>H-15)page();d.text(qt,m,y);y+=qt.length*4.2+1;d.setFont('helvetica','normal');let at=d.splitTextToSize(String(v(n)),W);if(y+at.length*4.2+8>H-15)page();d.text(at,m,y);y+=at.length*4.2+6}}const blob=d.output('blob'),file=new File([blob],'Bewerbungsformular_Callcenter.pdf',{type:'application/pdf'}),msg='Hallo, hier ist meine ausgefüllte Bewerbung für das Callcenter.';if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({text:msg,files:[file],title:'Bewerbungsformular Callcenter'});else{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank')}e.target.style.display='none';document.querySelector('.intro').style.display='none';document.getElementById('success').style.display='block';document.querySelector('#success p').textContent='Das PDF wurde erstellt und WhatsApp geöffnet. Bitte senden Sie die Nachricht zusammen mit dem PDF.';scrollTo({top:0,behavior:'smooth'})}catch(err){console.error(err);b.disabled=false;b.textContent='Formular absenden';alert('Das PDF konnte nicht erstellt bzw. geteilt werden. Bitte versuchen Sie es erneut.')}});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
