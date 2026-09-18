@@ -207,8 +207,174 @@ function progress(){
  pt.textContent='Abschnitt '+(i+1)+' von '+sections.length;
 }
 addEventListener('scroll',progress,{passive:true});progress();
-document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();const b=document.querySelector('.btn');b.disabled=true;b.textContent='PDF wird erstellt…';try{const {jsPDF}=window.jspdf,fd=new FormData(e.target),v=n=>fd.get(n)||'—';const groups=[['1. Firma',[['Firmenname','firmenname'],['Geschäftsadresse','geschaeftsadresse'],['Filialen','filialen'],['Gesellschaftsform','gesellschaftsform'],['Firma existiert seit (Gründungsdatum)','firma_existiert_seit'],['Gesellschafter – Anzahl','owner_anzahl'],['Gesellschafter – Name','owner_name'],['Gesellschafter – Telefon','owner_telefon'],['Gesellschafter – Kontakt E-Mail','owner_email'],['Gesellschafter – Erfahrung im Callcenter seit','owner_erfahrung'],['Geschäftsführer – Anzahl','gf_anzahl'],['Geschäftsführer – Name','gf_name'],['Geschäftsführer – Telefon','gf_telefon'],['Geschäftsführer – Kontakt E-Mail','gf_email'],['Geschäftsführer – Erfahrung im Callcenter seit','gf_erfahrung']]],['2. Kontaktperson',[['Name','kontakt_name'],['E-Mail-Adresse (persönlich)','kontakt_pers_email'],['Firmen-E-Mail-Adresse','kontakt_firmen_email'],['Telefon','kontakt_telefon']]],['3. Zeiten',[['Öffnungszeiten','oeffnungszeiten'],['Arbeitszeiten','arbeitszeiten']]],['4. Projekte',[['Anzahl Projekte','anzahl_projekte'],['Welche Projekte und seit wann','projekte_seit_wann']]],['5. Mitarbeiter',[['Anzahl gesamt angestellte Mitarbeiter','mitarbeiter_gesamt'],['Davon sozialversicherungspflichtig beschäftigt','mitarbeiter_sv'],['Davon Freelancer','mitarbeiter_freelancer'],['Davon Homeoffice','mitarbeiter_homeoffice'],['Davon Office','mitarbeiter_office'],['Anzahl Mitarbeiter mit 1 Jahr Zugehörigkeit','mitarbeiter_1jahr'],['Anzahl Mitarbeiter mit 2 Jahren Zugehörigkeit','mitarbeiter_2jahre'],['Anzahl Mitarbeiter mit 3 Jahren Zugehörigkeit','mitarbeiter_3jahre']]],['6. Teamleiter',[['Name Teamleiter','teamleiter_name'],['Erfahrung Teamleiter im Callcenter seit (wann)','teamleiter_erfahrung']]],['7. Coach / Trainer',[['Name Coach/Trainer','coach_name'],['Erfahrung Coach/Trainer im Callcenter seit (wann)','coach_erfahrung']]],['8. Kapazität / Start',[['Team aus 2 Personen (die verkaufen können) – Start','start_team_2'],['Team aus 4 Personen (die verkaufen können) – Start','start_team_4']]],['9. Weitere Fragen',[['1. Wer würde einspringen, wenn Mitarbeiter ausfallen?','frage1'],['2. Würden Geschäftsführer, Trainer oder Coach auch selbst telefonieren, wenn Personal ausfällt?','frage2'],['3. Wie wird sichergestellt, dass ausreichend Ersatz vorhanden und ausgebildet ist – mit ausreichenden Deutsch- und Systemkenntnissen –, damit die Kunden gut bedient und behandelt werden?','frage3'],['4. Kann sichergestellt werden, dass nach der 4-wöchigen Schulung komplett selbständig, ohne den Auftraggeber, gearbeitet werden kann?','frage4'],['5. Welche Person haftet für Datenmissbrauch, und wie wird sichergestellt, dass Kundendaten nicht missbräuchlich durch Mitarbeiter und Dritte verwendet werden?','frage5'],['6. Welche Person haftet generell für Schadenersatz gegenüber dem Projektgeber?','frage6']]],['10. Unterschrift',[['Name der unterschreibenden Person','unterschrift_name'],['Funktion','unterschrift_funktion'],['Ort, Datum','ort_datum'],['Unterschrift','unterschrift']]]];const d=new jsPDF({unit:'mm',format:'a4'}),m=16,W=178,H=297;let y=18;const head=()=>{d.setFont('helvetica','bold');d.setFontSize(17);d.setTextColor(48,73,92);d.text('Bewerbungsformular Callcenter',m,y);y+=10},page=()=>{d.addPage();y=18;head()};head();for(const [title,fs] of groups){if(y>265)page();d.setFillColor(238,243,246);d.rect(m,y-5,W,9,'F');d.setFontSize(10);d.text(title,m+3,y+1);y+=10;for(const [q,n] of fs){d.setFont('helvetica','bold');d.setFontSize(8.5);d.setTextColor(55,65,72);let qt=d.splitTextToSize(q,W);if(y+qt.length*4+12>H-15)page();d.text(qt,m,y);y+=qt.length*4.2+1;d.setFont('helvetica','normal');let at=d.splitTextToSize(String(v(n)),W);if(y+at.length*4.2+8>H-15)page();d.text(at,m,y);y+=at.length*4.2+6}}const blob=d.output('blob'),file=new File([blob],'Bewerbungsformular_Callcenter.pdf',{type:'application/pdf'}),msg='Hallo, hier ist meine ausgefüllte Bewerbung für das Callcenter.';if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({text:msg,files:[file],title:'Bewerbungsformular Callcenter'});else{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank')}e.target.style.display='none';document.querySelector('.intro').style.display='none';document.getElementById('success').style.display='block';document.querySelector('#success p').textContent='Das PDF wurde erstellt und WhatsApp geöffnet. Bitte senden Sie die Nachricht zusammen mit dem PDF.';scrollTo({top:0,behavior:'smooth'})}catch(err){console.error(err);b.disabled=false;b.textContent='Formular absenden';alert('Das PDF konnte nicht erstellt bzw. geteilt werden. Bitte versuchen Sie es erneut.')}});
+document.getElementById('form').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.querySelector('.btn');
+  btn.disabled=true;
+  btn.textContent='PDF wird erstellt…';
+
+  let overlay=null;
+  try{
+    if(!window.jspdf || !window.jspdf.jsPDF) throw new Error('jsPDF not loaded');
+    if(!window.html2canvas) throw new Error('html2canvas not loaded');
+
+    const source=document.querySelector('.wrap');
+    const form=document.getElementById('form');
+    if(!source || !form) throw new Error('Form not found');
+
+    // Create an exact visual copy of the filled online form.
+    const clone=source.cloneNode(true);
+    clone.style.cssText += ';width:850px!important;max-width:850px!important;margin:0 auto!important;padding:0 14px 36px!important;box-sizing:border-box!important;position:static!important;transform:none!important;overflow:visible!important;';
+
+    // Remove elements that are not part of the submitted application.
+    clone.querySelector('.progress')?.remove();
+    clone.querySelector('.pt')?.remove();
+    clone.querySelector('.actions')?.remove();
+    clone.querySelector('#success')?.remove();
+
+    const liveFields=[...form.querySelectorAll('input,select,textarea')];
+    const copyFields=[...clone.querySelectorAll('input,select,textarea')];
+
+    liveFields.forEach((field,i)=>{
+      const target=copyFields[i];
+      if(!target) return;
+
+      if(field.type==='radio'){
+        target.checked=field.checked;
+        target.removeAttribute('name');
+        return;
+      }
+
+      let value='';
+      if(field.tagName==='SELECT') value=field.selectedOptions[0]?.textContent.trim() || '';
+      else value=field.value || '';
+
+      const cs=getComputedStyle(field);
+      const box=document.createElement('div');
+      box.className='pdf-filled-answer';
+      box.textContent=value || '—';
+      box.style.cssText=[
+        'box-sizing:border-box','width:100%',
+        'min-height:'+Math.max(field.offsetHeight||39,39)+'px',
+        'padding:'+cs.padding,'border:'+cs.border,
+        'border-radius:'+cs.borderRadius,'background:'+cs.backgroundColor,
+        'font-family:'+cs.fontFamily,'font-size:'+cs.fontSize,
+        'font-weight:'+cs.fontWeight,'line-height:'+cs.lineHeight,
+        'color:'+cs.color,'white-space:pre-wrap',
+        'overflow-wrap:anywhere','display:flex','align-items:center'
+      ].join(';');
+      target.replaceWith(box);
+    });
+
+    // Screen-only controls are hidden; the visual form itself remains intact.
+    overlay=document.createElement('div');
+    overlay.id='pdf-overlay';
+    overlay.style.cssText='position:fixed;inset:0;background:#f4f6f8;z-index:999999;overflow:auto;padding:26px 0 50px;';
+    overlay.appendChild(clone);
+    document.body.appendChild(overlay);
+
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+    const rect=clone.getBoundingClientRect();
+    const canvas=await html2canvas(clone,{
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#f4f6f8',
+      logging:false,
+      width:Math.ceil(rect.width),
+      height:Math.ceil(clone.scrollHeight),
+      windowWidth:900,
+      scrollX:0,
+      scrollY:0
+    });
+
+    overlay.remove(); overlay=null;
+
+    if(!canvas || canvas.width<10 || canvas.height<10) throw new Error('Empty canvas');
+
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+    const margin=7;
+    const contentW=210-margin*2;
+    const contentH=297-margin*2;
+    const pagePx=Math.floor(canvas.width*(contentH/contentW));
+
+    // Prefer natural card boundaries so cards are not awkwardly split.
+    const cardRects=[...clone.querySelectorAll('.card')].map(el=>{
+      const r=el.getBoundingClientRect();
+      return {
+        top:Math.max(0,Math.round((r.top-rect.top)*2)),
+        bottom:Math.min(canvas.height,Math.round((r.bottom-rect.top)*2))
+      };
+    }).filter(x=>x.bottom>x.top);
+
+    const starts=[0];
+    let current=0;
+    while(current<canvas.height){
+      const target=current+pagePx;
+      if(target>=canvas.height){ break; }
+      const candidates=cardRects.map(c=>c.bottom).filter(b=>b>current && b<=target);
+      let cut=candidates.length?Math.max(...candidates):target;
+      if(cut<=current) cut=target;
+      starts.push(cut);
+      current=cut;
+    }
+
+    for(let i=0;i<starts.length;i++){
+      const y0=starts[i];
+      const y1=(i+1<starts.length)?starts[i+1]:canvas.height;
+      if(y1<=y0) continue;
+
+      const slice=document.createElement('canvas');
+      slice.width=canvas.width;
+      slice.height=y1-y0;
+      const ctx=slice.getContext('2d');
+      ctx.fillStyle='#f4f6f8';
+      ctx.fillRect(0,0,slice.width,slice.height);
+      ctx.drawImage(canvas,0,y0,canvas.width,y1-y0,0,0,canvas.width,y1-y0);
+
+      if(i>0) doc.addPage();
+      const hMm=(slice.height/canvas.width)*contentW;
+      doc.addImage(slice.toDataURL('image/jpeg',0.98),'JPEG',margin,margin,contentW,Math.min(contentH,hMm));
+    }
+
+    const blob=doc.output('blob');
+    if(!blob || blob.size<1000) throw new Error('PDF empty');
+
+    const file=new File([blob],'Bewerbungsformular_Callcenter.pdf',{type:'application/pdf'});
+    const msg='Hallo, hier ist meine ausgefüllte Bewerbung für das Callcenter.';
+
+    if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],text:msg,title:'Bewerbungsformular Callcenter'});
+    }else{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download=file.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),5000);
+      window.open('https://wa.aisensy.com/aabnpx?text='+encodeURIComponent(msg),'_blank');
+    }
+
+    btn.disabled=false;
+    btn.textContent='Formular absenden';
+    form.style.display='none';
+    document.querySelector('.intro').style.display='none';
+    document.getElementById('success').style.display='block';
+    document.querySelector('#success p').textContent='Das ausgefüllte PDF wurde erstellt und WhatsApp geöffnet.';
+    scrollTo({top:0,behavior:'smooth'});
+  }catch(err){
+    console.error('PDF creation error:',err);
+    if(overlay) overlay.remove();
+    btn.disabled=false;
+    btn.textContent='Formular absenden';
+    alert('Das PDF konnte nicht erstellt werden. Bitte versuchen Sie es erneut.');
+  }
+});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
